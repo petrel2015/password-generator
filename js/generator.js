@@ -1,0 +1,140 @@
+/* =====================================================================
+   PW·GEN — password generator core (pure logic, no DOM)
+
+   UMD: usable from the browser (window.PG.generator) and from Node
+   (module.exports) so the test suite can exercise it directly.
+
+   Randomness comes from the Web Crypto API via rejection sampling,
+   so every character is drawn without modulo bias.
+   ===================================================================== */
+(function (root, factory) {
+  'use strict';
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory();
+  } else {
+    root.PG = root.PG || {};
+    root.PG.generator = factory();
+  }
+}(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var CHARSETS = {
+    upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    lower: 'abcdefghijklmnopqrstuvwxyz',
+    digits: '0123456789',
+    symbols: "!@#$%^&*()-_=+[]{};:'\",.<>?/~\\`|"
+  };
+
+  /* Human-readable mode: characters dropped because they read alike —
+     0/O/o, 1/l/I/i, 2/Z/z, 5/S/s, 8/B, 6/b, 9/g/q. Symbols are replaced
+     wholesale with a subset of clearly visible marks. */
+  var READABLE_EXCLUDE = '0Oo1lIi2Zz5Ss8B6b9gq';
+  var READABLE_SYMBOLS = '!@#$%^&*-_=+?~';
+
+  var CLASS_KEYS = ['upper', 'lower', 'digits', 'symbols'];
+
+  function getCrypto() {
+    if (typeof crypto !== 'undefined' && crypto.getRandomValues) return crypto;
+    if (typeof require === 'function') {
+      try { return require('crypto').webcrypto; } catch (e) { /* older Node */ }
+    }
+    return null;
+  }
+
+  function defaultRng() {
+    var c = getCrypto();
+    if (!c) throw new Error('Web Crypto API unavailable');
+    return function () {
+      var buf = new Uint32Array(1);
+      c.getRandomValues(buf);
+      return buf[0];
+    };
+  }
+
+  /* Uniform integer in [0, max) via rejection sampling. */
+  function randomInt(rng, max) {
+    if (max <= 0) throw new Error('max must be positive');
+    var range = 4294967296;
+    var limit = range - (range % max);
+    var v;
+    do { v = rng(); } while (v >= limit);
+    return v % max;
+  }
+
+  function filterOut(set, excluded) {
+    var out = '';
+    for (var i = 0; i < set.length; i++) {
+      if (excluded.indexOf(set.charAt(i)) < 0) out += set.charAt(i);
+    }
+    return out;
+  }
+
+  /* One string of allowed characters per selected class, after any
+     readability filtering and blacklist removal. A class emptied by
+     filtering is dropped; empty array when nothing usable remains. */
+  function buildClasses(opts) {
+    var blacklist = opts.blacklist || '';
+    var classes = [];
+    for (var i = 0; i < CLASS_KEYS.length; i++) {
+      var key = CLASS_KEYS[i];
+      if (!opts[key]) continue;
+      var set = key === 'symbols' && opts.readable ? READABLE_SYMBOLS : CHARSETS[key];
+      if (opts.readable) set = filterOut(set, READABLE_EXCLUDE);
+      if (blacklist) set = filterOut(set, blacklist);
+      if (set) classes.push(set);
+    }
+    return classes;
+  }
+
+  function pick(set, rng) {
+    return set.charAt(randomInt(rng, set.length));
+  }
+
+  /* Guaranteed at least one character from every selected class,
+     remaining positions drawn from the joined pool, then a full
+     Fisher–Yates shuffle so the guaranteed characters are not
+     predictably front-loaded. */
+  function generate(opts, rng) {
+    rng = rng || defaultRng();
+    var classes = buildClasses(opts);
+    if (classes.length === 0) throw new Error('no character class selected');
+    if (opts.length < classes.length) {
+      throw new Error('length shorter than number of selected classes');
+    }
+    var pool = classes.join('');
+    var chars = [];
+    for (var i = 0; i < classes.length; i++) chars.push(pick(classes[i], rng));
+    for (var j = classes.length; j < opts.length; j++) chars.push(pick(pool, rng));
+    for (var k = chars.length - 1; k > 0; k--) {
+      var swap = randomInt(rng, k + 1);
+      var tmp = chars[k];
+      chars[k] = chars[swap];
+      chars[swap] = tmp;
+    }
+    return chars.join('');
+  }
+
+  function entropyBits(length, poolSize) {
+    if (poolSize <= 1) return 0;
+    return length * Math.log(poolSize) / Math.LN2;
+  }
+
+  /* 0 weak · 1 fair · 2 strong · 3 excellent */
+  function strengthLevel(bits) {
+    if (bits < 40) return 0;
+    if (bits < 60) return 1;
+    if (bits < 80) return 2;
+    return 3;
+  }
+
+  return {
+    CHARSETS: CHARSETS,
+    READABLE_EXCLUDE: READABLE_EXCLUDE,
+    READABLE_SYMBOLS: READABLE_SYMBOLS,
+    buildClasses: buildClasses,
+    generate: generate,
+    entropyBits: entropyBits,
+    strengthLevel: strengthLevel,
+    randomInt: randomInt
+  };
+}));
