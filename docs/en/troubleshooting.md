@@ -11,8 +11,8 @@ in `js/donation.js`.
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
 | Password area shows `——————` and "Select at least one character set." | All four class checkboxes are unticked | Tick at least one class |
-| Password area shows `——————` and "No usable characters left — adjust the blacklist." | The blacklist (possibly combined with readable mode) removed every candidate character | Remove some blacklist characters or enable more classes |
-| Entropy is lower than expected | Readable mode (pool 94 → 55) or the blacklist shrank the pool — the number is correct for the current settings | This is expected; see [Usage — Reading entropy](./usage.md#reading-entropy-and-strength) |
+| Password area shows `——————` and "No usable characters left — adjust the blacklist." | The blacklist (possibly combined with advanced options) removed every candidate character | Remove some blacklist characters or enable more classes |
+| Entropy is lower than expected | An advanced option (easy-type 94 → 55, easy-speak 94 → 49, both → 35) or the blacklist shrank the pool — the number is correct for the current settings | This is expected; see [Usage — Reading entropy](./usage.md#reading-entropy-and-strength) |
 | Typed length does not stick (e.g. `99`) | The UI clamps to the 4–64 range on change | Use values within 4–64 |
 | Error "Web Crypto API unavailable" (very old browser) | The browser predates `crypto.getRandomValues` (e.g. IE 11, or a very old embedded webview) | Use a current Chrome, Edge, Firefox, or Safari |
 
@@ -51,5 +51,5 @@ Open an issue at
 [petrel2015/password-generator/issues](https://github.com/petrel2015/password-generator/issues)
 and include: browser + version, page URL (or "local file"), the exact
 warning text if any, and what you clicked. For generation surprises, paste
-the settings (length, classes, readable on/off, blacklist) — never paste the
+the settings (length, classes, advanced options, blacklist) — never paste the
 generated password itself.

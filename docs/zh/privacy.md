@@ -10,7 +10,7 @@ English version: [Privacy](../en/privacy.md).
 | --- | --- | --- | --- | --- |
 | 语言选择（`en` 或 `zh`） | localStorage | `pg-lang` | 直到你清除站点数据 | 记住界面语言（`js/i18n.js`，`setLang`） |
 
-**此外什么都不存。** 页面自身代码从不把密码写入 localStorage、sessionStorage、Cookie、IndexedDB 或任何磁盘缓存。生成设置（长度、字符类、易读、黑名单）刻意不持久化——刷新即重置。
+**此外什么都不存。** 页面自身代码从不把密码写入 localStorage、sessionStorage、Cookie、IndexedDB 或任何磁盘缓存。生成设置（长度、字符类、高级选项、黑名单）刻意不持久化——刷新即重置。
 
 ## 网络行为
 

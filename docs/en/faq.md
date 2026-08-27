@@ -15,13 +15,14 @@ paths — save the repository, open `index.html` directly (`file://`), serve it
 with any static file server, or host it anywhere. No build step, no
 environment variables, no backend.
 
-## Why does the entropy drop when I tick Human-readable?
+## Why does the entropy drop when I tick an advanced option?
 
-Readable mode removes 18 look-alike characters and most symbols, shrinking
-the pool from 94 to 55 characters. Fewer possibilities per position means
-fewer bits per character (log2 94 ≈ 6.55 vs log2 55 ≈ 5.78). The readout
-always reflects the real cost — 16 readable characters still rate ~92 bits,
-far beyond brute force.
+Each advanced filter removes whole groups of characters: **Easy to type**
+shrinks the pool from 94 to 55, **Easy to read aloud** to 49, both together
+to 35. Fewer possibilities per position means fewer bits per character
+(log2 94 ≈ 6.55 vs log2 55 ≈ 5.78). The readout always reflects the real
+cost — 16 easy-to-type characters still rate ~92 bits, far beyond brute
+force.
 
 ## Why is the maximum length 64?
 
@@ -46,8 +47,8 @@ legacy copy method.
 
 ## Are my settings saved between visits?
 
-Only the interface language is. Length, character classes, readable mode,
-and blacklist intentionally reset on reload — nothing about your password
+Only the interface language is. Length, character classes, advanced
+options, and blacklist intentionally reset on reload — nothing about your password
 habits persists on your machine.
 
 ## Is the strength meter a guarantee?

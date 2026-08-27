@@ -2,7 +2,7 @@
 
 English | [简体中文](./README.zh.md)
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue)
+![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![Runtime dependencies](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 ![Build step](https://img.shields.io/badge/build%20step-none-8A2BE2)
 ![UI languages](https://img.shields.io/badge/UI-EN%20%7C%20%E4%B8%AD%E6%96%87-informational)
@@ -48,16 +48,24 @@ password and its score update immediately.
 
 How to use: [Reading entropy and strength](./docs/en/usage.md#reading-entropy-and-strength)
 
-### Human-readable mode
+### Advanced options: type it, say it, dictate it
 
-One checkbox removes the characters people misread and mistype — `0/O/o`,
-`1/l/I/i`, `2/Z/z`, `5/S/s`, `8/B`, `6/b`, `9/g/q` — and narrows the symbol
-set to clearly visible marks. Useful for passwords you will type by hand or
-read over the phone.
+Three independent modes in their own "03 — Advanced" section, shaped for how
+you will actually use the password:
 
-![Readable mode with a blacklist](./docs/img/readable-blacklist-en.webp)
+- **Easy to type** — removes look-alike characters (`0/O/o`, `1/l/I/i`,
+  `2/Z/z`, `5/S/s`, `8/B`, `6/b`, `9/g/q`) and narrows the symbol set to
+  clearly visible marks (pool 94 → 55).
+- **Easy to read aloud** — removes characters whose spoken names are easily
+  confused: the "ee" family `B C D E G P T V Z`, `N` vs `M`, and `1`/`7`
+  (Mandarin "yī"/"qī"), with a speakable symbol subset (pool 94 → 49).
+- **Easy to dictate** — groups the password into blocks of four with a
+  hyphen or underscore (`k3WF-pmQx-…`); the separators add no entropy and
+  never appear inside the password itself.
 
-How to use: [Human-readable mode](./docs/en/usage.md#human-readable-mode) ·
+![Easy-to-type mode with a blacklist](./docs/img/readable-blacklist-en.webp)
+
+How to use: [Advanced options](./docs/en/usage.md#advanced-options) ·
 Exact exclusion lists: [Detailed Behavior](./docs/en/features/password-engine.md#detailed-behavior)
 
 ### Character blacklist
@@ -103,7 +111,8 @@ asset path is relative.
 ## Basic Usage
 
 1. Adjust **Length** (4–64) with the slider or number box.
-2. Tick the character sets you want; optionally enable **Human-readable**
+2. Tick the character sets you want; optionally open the **Advanced**
+   options (**Easy to type** / **Easy to read aloud** / **Easy to dictate**)
    and/or fill in a **Blacklist**.
 3. The password regenerates on every change; press **Regenerate** for a new
    one with the same settings.
@@ -120,7 +129,7 @@ Full walkthrough with edge cases: [Usage](./docs/en/usage.md).
 | Logic | Vanilla ES5-compatible JavaScript, no framework |
 | Randomness | Web Crypto API (`crypto.getRandomValues`) with rejection sampling |
 | QR encoding | [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) (MIT), vendored, lazy-loaded |
-| Tests | Node test runner scripts (`node test/*.js`), 29 tests |
+| Tests | Node test runner scripts (`node test/*.js`), 43 tests |
 
 ## Architecture Summary
 
@@ -168,13 +177,13 @@ to a legacy method and passwords still display.
 ## Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md) (Keep a Changelog format). The repository
-has no version tags yet; `0.1.0` is the initial published feature set.
+has no version tags yet; `0.2.0` is the current published feature set.
 
 ## Contributing
 
 Issues and pull requests are welcome at
 [petrel2015/password-generator](https://github.com/petrel2015/password-generator).
-Run `npm test` before submitting — all 29 tests must pass. If you add a UI
+Run `npm test` before submitting — all 43 tests must pass. If you add a UI
 string, add it to **both** dictionaries in `js/i18n.js` (a test enforces key
 parity for the donation strings; keep the main dictionaries in the same
 discipline).

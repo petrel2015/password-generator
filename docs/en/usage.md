@@ -11,8 +11,9 @@ or any local copy — see [Quick Start](../../README.md#quick-start).
 
 1. Open the page. A password is generated immediately with the default
    settings (length 16, all four character classes on).
-2. Set the length (see below), tick or untick character classes, optionally
-   enable **Human-readable** or fill in a **Blacklist**.
+2. Set the length (see below), tick or untick character classes, fill in a
+   **Blacklist**, and open the **Advanced** options
+   (**Easy to type** / **Easy to read aloud** / **Easy to dictate**) as needed.
 3. Every change regenerates the password instantly — there is no separate
    "apply" step.
 4. Press **Regenerate** to draw a new password with the current settings.
@@ -69,26 +70,59 @@ reflects the *generator settings*, not how memorable or how well you will
 use the password — a truly random 105-bit string is far beyond any realistic
 brute-force attack.
 
-## Human-readable mode
+## Advanced options
 
-Tick **Human-readable** to exclude characters that people misread or mistype:
+The four class toggles above are the basic controls. Section **03 — Advanced**
+groups three independent modes that shape the output for how you will actually
+*use* the password — typing it, reading it aloud, or dictating it. They can be
+combined freely; the pool shrinks with each one you enable and the entropy
+readout always tells the truth.
+
+### Easy to type
+
+Excludes characters that people misread or mistype when transcribing:
 
 - Removed everywhere: `0 O o 1 l I i 2 Z z 5 S s 8 B 6 b 9 g q`
 - Symbols are replaced by a clearly visible subset:
   `!@#$%^&*-_=+?~`
 
-The pool shrinks from 94 to 55 characters, so entropy drops accordingly
-(16 characters ≈ 92 bits) — the readout always tells the truth. Useful when
-the password will be typed by hand, read aloud, or transcribed from paper.
+The pool shrinks from 94 to 55 characters (16 characters ≈ 92 bits). Useful
+when the password will be typed by hand or copied from paper.
 
-![Readable mode with a blacklist](../img/readable-blacklist-en.webp)
+### Easy to read aloud
+
+Excludes characters whose *spoken names* are easily confused, so a colleague
+on the phone hears every character unambiguously:
+
+- Removed letters (both cases): `B C D E G P T V Z` — they all end in the
+  same "ee" vowel — and `N`, which loses to the kept `M` ("em" vs "en").
+- Removed digits: `1` and `7` — Mandarin "yī"/"qī" are the classic
+  phone-number confusion.
+- Symbols shrink to marks with short, distinct names: `!@#$%*+=?`.
+
+The pool shrinks from 94 to 49 characters.
+
+### Easy to dictate
+
+Splits the password into blocks of four so it can be read out and copied
+chunk by chunk: `k3WF-pmQx-…`. Two separators are available — hyphen `-` or
+underscore `_` — pick one with the small toggle next to the checkbox.
+
+- The separators are pure layout: they add **no** entropy, and the entropy
+  readout keeps counting the real characters only.
+- The chosen separator is removed from the candidate pool, so dictation
+  never has a "structural dash" versus "password dash" ambiguity.
+- **Copy** copies the grouped string — that is the point: paste it anywhere
+  and read it out in chunks.
+
+![Easy-to-type mode with a blacklist](../img/readable-blacklist-en.webp)
 
 ## Blacklist
 
 Type any characters into the **Blacklist** field and each one is removed from
 the candidate pool on the fly.
 
-- Blacklisting applies **after** readable-mode filtering, so the two combine.
+- Blacklisting applies **after** the advanced-mode filtering, so they combine.
 - A character class that becomes empty is silently skipped (it no longer
   counts toward the guaranteed-character rule).
 - If nothing usable remains, generation stops and the page shows

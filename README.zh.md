@@ -2,7 +2,7 @@
 
 [English](./README.md) | 简体中文
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue)
+![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![Runtime dependencies](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
 ![Build step](https://img.shields.io/badge/build%20step-none-8A2BE2)
 ![UI languages](https://img.shields.io/badge/UI-EN%20%7C%20%E4%B8%AD%E6%96%87-informational)
@@ -40,13 +40,17 @@ Crypto API 在本地生成——不存储任何内容，密码不会离开这个
 
 使用方法：[读取熵值与强度](./docs/zh/usage.md#读取熵值与强度)
 
-### 人类易读模式
+### 高级选项：易输入 · 易朗读 · 易复述
 
-一个勾选即可剔除容易看错、敲错的字符——`0/O/o`、`1/l/I/i`、`2/Z/z`、`5/S/s`、`8/B`、`6/b`、`9/g/q`——并把符号收窄为清晰醒目的子集。适合需要手工输入或口述转写的密码。
+「03 — 高级选项」区块内的三个独立模式，按你实际使用密码的方式各取所需：
 
-![人类易读模式 + 黑名单](./docs/img/readable-blacklist-en.webp)
+- **易输入**——剔除容易看错、敲错的字符（`0/O/o`、`1/l/I/i`、`2/Z/z`、`5/S/s`、`8/B`、`6/b`、`9/g/q`），符号收窄为清晰醒目的子集（池 94 → 55）。
+- **易朗读**——剔除**读出来**易听混的字符：同发 /iː/ 音的 `B C D E G P T V Z`、相近的 `M/N`、中文易混的 `1/7`（「一 / 七」），符号收为可朗读子集（池 94 → 49）。
+- **易复述**——按 4 位一组用连字符或下划线分段（`k3WF-pmQx-…`）；分隔符不贡献熵，也绝不会出现在密码字符本身之中。
 
-使用方法：[人类易读模式](./docs/zh/usage.md#人类易读模式) ·
+![易输入模式 + 黑名单](./docs/img/readable-blacklist-en.webp)
+
+使用方法：[高级选项](./docs/zh/usage.md#高级选项) ·
 精确剔除清单：[详细行为](./docs/zh/features/password-engine.md#详细行为)
 
 ### 字符黑名单
@@ -84,7 +88,7 @@ python3 -m http.server 8471
 ## 基本用法
 
 1. 通过滑杆或数字输入框调整**长度**（4–64）。
-2. 勾选所需字符类型；可按需开启**人类易读**、填写**黑名单**。
+2. 勾选所需字符类型；可按需在**高级选项**里开启**易输入** / **易朗读** / **易复述**，并填写**黑名单**。
 3. 任何改动都会立即重新生成；按**重新生成**可在相同设置下换一个密码。
 4. 按**复制**将密码复制到剪贴板。
 
@@ -99,7 +103,7 @@ python3 -m http.server 8471
 | 逻辑 | 原生 JavaScript（兼容 ES5），无框架 |
 | 随机 | Web Crypto API（`crypto.getRandomValues`）+ 拒绝采样 |
 | 二维码 | [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator)（MIT），内联引入、懒加载 |
-| 测试 | Node 测试脚本（`node test/*.js`），共 29 项 |
+| 测试 | Node 测试脚本（`node test/*.js`），共 43 项 |
 
 ## 架构概要
 
@@ -143,12 +147,12 @@ English documentation: [Documentation index](./docs/en/index.md)
 
 ## 更新日志
 
-见 [CHANGELOG.zh.md](./CHANGELOG.zh.md)（Keep a Changelog 格式）。仓库暂无版本标签；`0.1.0` 汇总了首次公开发布时的完整功能集。
+见 [CHANGELOG.zh.md](./CHANGELOG.zh.md)（Keep a Changelog 格式）。仓库暂无版本标签；`0.2.0` 为当前已发布功能集。
 
 ## 参与贡献
 
 欢迎在 [petrel2015/password-generator](https://github.com/petrel2015/password-generator)
-提 Issue 与 Pull Request。提交前请运行 `npm test`——29 项测试必须全部通过。新增界面文案时，请同时在
+提 Issue 与 Pull Request。提交前请运行 `npm test`——43 项测试必须全部通过。新增界面文案时，请同时在
 `js/i18n.js` 的**两份**词典中添加（赞赏文案的键位一致性已有测试强制约束，主词典请保持同样的纪律）。
 
 ## 许可证说明

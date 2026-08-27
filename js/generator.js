@@ -25,11 +25,19 @@
     symbols: "!@#$%^&*()-_=+[]{};:'\",.<>?/~\\`|"
   };
 
-  /* Human-readable mode: characters dropped because they read alike —
+  /* Easy-to-type mode: characters dropped because they look alike —
      0/O/o, 1/l/I/i, 2/Z/z, 5/S/s, 8/B, 6/b, 9/g/q. Symbols are replaced
      wholesale with a subset of clearly visible marks. */
-  var READABLE_EXCLUDE = '0Oo1lIi2Zz5Ss8B6b9gq';
-  var READABLE_SYMBOLS = '!@#$%^&*-_=+?~';
+  var TYPE_EXCLUDE = '0Oo1lIi2Zz5Ss8B6b9gq';
+  var TYPE_SYMBOLS = '!@#$%^&*-_=+?~';
+
+  /* Easy-to-read-aloud mode: characters dropped because they sound alike
+     when spoken. B C D E G P T V Z all end in the same "ee" vowel and are
+     hard to tell apart by ear; N ("en") is dropped in favour of M ("em");
+     1/7 go because Mandarin "yī"/"qī" are easily confused. Symbols shrink
+     to marks with short, distinct spoken names. */
+  var SPEAK_EXCLUDE = 'BCDEGNPTVZbcdegnptvz17';
+  var SPEAK_SYMBOLS = '!@#$%*+=?';
 
   var CLASS_KEYS = ['upper', 'lower', 'digits', 'symbols'];
 
@@ -70,16 +78,20 @@
   }
 
   /* One string of allowed characters per selected class, after any
-     readability filtering and blacklist removal. A class emptied by
-     filtering is dropped; empty array when nothing usable remains. */
+     easy-type / easy-speak filtering, separator removal and blacklist.
+     A class emptied by filtering is dropped; empty array when nothing
+     usable remains. */
   function buildClasses(opts) {
     var blacklist = opts.blacklist || '';
+    var sep = opts.groupSep || '';
     var classes = [];
     for (var i = 0; i < CLASS_KEYS.length; i++) {
       var key = CLASS_KEYS[i];
       if (!opts[key]) continue;
-      var set = key === 'symbols' && opts.readable ? READABLE_SYMBOLS : CHARSETS[key];
-      if (opts.readable) set = filterOut(set, READABLE_EXCLUDE);
+      var set = CHARSETS[key];
+      if (opts.easyType) set = key === 'symbols' ? TYPE_SYMBOLS : filterOut(set, TYPE_EXCLUDE);
+      if (opts.easySpeak) set = key === 'symbols' ? SPEAK_SYMBOLS : filterOut(set, SPEAK_EXCLUDE);
+      if (sep) set = filterOut(set, sep);
       if (blacklist) set = filterOut(set, blacklist);
       if (set) classes.push(set);
     }
@@ -119,6 +131,18 @@
     return length * Math.log(poolSize) / Math.LN2;
   }
 
+  /* Easy-to-dictate layout: blocks of `size` characters joined by `sep`.
+     The separators are pure formatting — they carry no entropy, and
+     buildClasses keeps them out of the candidate pool. */
+  function groupPassword(pw, size, sep) {
+    size = size || 4;
+    var groups = [];
+    for (var i = 0; i < pw.length; i += size) {
+      groups.push(pw.slice(i, i + size));
+    }
+    return groups.join(sep || '-');
+  }
+
   /* 0 weak · 1 fair · 2 strong · 3 excellent */
   function strengthLevel(bits) {
     if (bits < 40) return 0;
@@ -129,10 +153,13 @@
 
   return {
     CHARSETS: CHARSETS,
-    READABLE_EXCLUDE: READABLE_EXCLUDE,
-    READABLE_SYMBOLS: READABLE_SYMBOLS,
+    TYPE_EXCLUDE: TYPE_EXCLUDE,
+    TYPE_SYMBOLS: TYPE_SYMBOLS,
+    SPEAK_EXCLUDE: SPEAK_EXCLUDE,
+    SPEAK_SYMBOLS: SPEAK_SYMBOLS,
     buildClasses: buildClasses,
     generate: generate,
+    groupPassword: groupPassword,
     entropyBits: entropyBits,
     strengthLevel: strengthLevel,
     randomInt: randomInt

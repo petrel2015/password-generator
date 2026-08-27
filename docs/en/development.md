@@ -25,12 +25,26 @@ Deploying means copying the working tree (see [Deployment](./deployment.md)).
 
 ## What the tests cover
 
-**`test/generator-test.js` — 16 tests, pure logic via the UMD export:**
+**`test/app-test.js` — 8 tests, UI wiring via a minimal DOM stub** (loads the
+real `js/app.js` + `js/i18n.js` + `js/generator.js`, no browser needed):
 
-- Character-class construction: unfiltered sets, readable-mode exclusions
+- Init render: 16-char password, full-pool entropy, disabled separator picker.
+- Dictate toggle: blocks-of-four grouping, hyphen/underscore switching,
+  picker enable/disable, separators excluded from the character count.
+- Easy-speak / easy-type: excluded characters absent from output, entropy
+  readout follows the pool (105 → 90 → 82 bits); blacklist interplay.
+
+**`test/generator-test.js` — 22 tests, pure logic via the UMD export:**
+
+- Character-class construction: unfiltered sets, easy-type exclusions
   (digits reduce to `347`), visible-only symbol subset.
+- Easy-speak mode: sound-alike exclusions per class, speakable symbol subset,
+  easy-type + easy-speak stacking (pool 94 → 35).
+- Dictation grouping: `groupPassword` chunking, active separator removed
+  from the pool, separators never leak into generated output, entropy
+  unaffected by layout.
 - Blacklist: removal across classes, emptied classes dropped, whole-pool
-  exhaustion throws, blacklist + readable combined over 200 runs.
+  exhaustion throws, blacklist + easy-type combined over 200 runs.
 - Generation invariants: exact length, every selected class covered, all
   output characters inside the effective pool, across lengths 4–64.
 - 200-run sweeps asserting no excluded character ever appears.

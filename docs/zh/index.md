@@ -19,5 +19,5 @@ English documentation: [Documentation index](../en/index.md).
 
 两个包含重要设计决策的子系统的设计文档：
 
-- [密码生成引擎](./features/password-engine.md) — 随机源、字符类保底、易读模式、黑名单、熵模型。
+- [密码生成引擎](./features/password-engine.md) — 随机源、字符类保底、高级选项（易输入/易朗读/易复述）、黑名单、熵模型。
 - [赞赏弹窗](./features/donation-dialog.md) — 浏览器实时生成二维码、移动端跳转与回退、无障碍契约。

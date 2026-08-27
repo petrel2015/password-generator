@@ -11,16 +11,17 @@ It is not a repository-level instruction file for coding agents.
 - **Application type:** Single-page static website (one HTML file, plain CSS/JS, no framework, no build step)
 - **Backend required:** None. The site makes zero runtime network requests.
 - **Auth required:** None.
-- **Current version:** 0.1.0 (no Git tags / GitHub Releases exist yet; 0.1.0 is the summarized initial published feature set)
+- **Current version:** 0.2.0 (no Git tags / GitHub Releases exist yet; version numbers follow the CHANGELOG convention)
 - **License:** None declared. No LICENSE file exists; all rights reserved by default. The vendored `js/vendor/qrcode-generator.js` is MIT (third party).
 
 ## Project Summary
 
 PW·GEN is a Swiss-style password generator that runs entirely in the browser.
 Users pick a length (4–64) and character classes (uppercase, lowercase,
-digits, symbols), optionally enable a human-readable mode and/or a character
-blacklist, and the page immediately produces a password, an entropy estimate
-in bits, and a four-segment strength rating. The UI is bilingual
+digits, symbols), optionally enable advanced options (easy to type / easy to
+read aloud / easy to dictate) and/or a character blacklist, and the page
+immediately produces a password, an entropy estimate in bits, and a
+four-segment strength rating. The UI is bilingual
 (English / Simplified Chinese). A footer entry opens a donation dialog
 (Alipay / WeChat Pay) whose QR codes are generated locally in the browser.
 
@@ -36,7 +37,9 @@ strength.
 
 - Anyone who needs a strong random password and does not want it transmitted
   or logged anywhere.
-- Users who type passwords by hand and need look-alike characters removed.
+- Users who type passwords by hand and need look-alike characters removed;
+  users who read passwords aloud or dictate them and need sound-alike
+  characters removed / block-of-four grouping.
 - Users on systems that reject specific characters (blacklist).
 
 ## Core Capabilities
@@ -46,8 +49,15 @@ strength.
 2. Four selectable character classes; when several are selected, each is
    guaranteed at least one character; output is Fisher–Yates shuffled.
 3. Length 4–64, controlled by synced slider + number input.
-4. Human-readable mode excluding `0Oo1lIi2Zz5Ss8B6b9gq` and keeping only
-   clearly visible symbols (`!@#$%^&*-_=+?~`).
+4. Advanced options in their own UI section:
+   - **Easy to type** — excludes `0Oo1lIi2Zz5Ss8B6b9gq`, keeps only clearly
+     visible symbols (`!@#$%^&*-_=+?~`); pool 94 → 55.
+   - **Easy to read aloud** — excludes sound-alike characters
+     (`BCDEGNPTVZbcdegnptvz` both cases + digits `1`/`7` for Mandarin
+     "yī/qī"), keeps speakable symbols (`!@#$%*+=?`); pool 94 → 49.
+   - **Easy to dictate** — `groupPassword` renders blocks of four joined by
+     `-` or `_`; separators are layout only, carry no entropy, and are
+     removed from the candidate pool.
 5. Character blacklist; classes emptied by filtering are skipped.
 6. Live entropy display (`length × log2(pool size)`) and strength levels at
    40 / 60 / 80 bits (Weak / Fair / Strong / Excellent).
@@ -60,8 +70,9 @@ strength.
 
 - Generate a site password at the recommended length and copy it into a
   password manager.
-- Produce a readable password for a system that will be typed on a keyboard
-  without ambiguity between `0`/`O` or `1`/`l`.
+- Produce a typeable password without ambiguity between `0`/`O` or `1`/`l`,
+  a speakable one for phone dictation, or a grouped one for chunked
+  read-out (`k3WF-pmQx`).
 - Generate a passphrase-safe random string that avoids characters a target
   system rejects.
 
@@ -70,7 +81,8 @@ strength.
 - Length: integer 4–64 (values outside the range are clamped by the UI).
 - Character class toggles: uppercase / lowercase / digits / symbols
   (at least one must remain selectable; zero classes → warning state).
-- Human-readable toggle.
+- Advanced toggles: easy to type / easy to read aloud / easy to dictate
+  (+ hyphen/underscore separator choice).
 - Blacklist: free-text string; each character is removed from the pool.
 
 ## Outputs
@@ -92,9 +104,10 @@ password regenerates on every input change. Tests: `npm install && npm test`
   guaranteed-character rule the true distribution is very slightly below this
   uniform-upper-bound; the display follows the common log2 estimate.
 - The full symbol set is 32 characters (`!@#$%^&*()-_=+[]{};:'",.<>?/~\`|`),
-  so the full pool is 94 characters; readable mode shrinks it to 55.
-- Blacklist is applied **after** readable-mode filtering; a class emptied by
-  either filter is dropped from generation entirely.
+  so the full pool is 94 characters; easy-to-type shrinks it to 55,
+  easy-to-speak to 49, both together to 35.
+- Blacklist is applied **after** advanced-mode filtering; a class emptied by
+  any filter is dropped from generation entirely.
 - Length smaller than the number of selected classes is impossible via the UI
   (min length 4, max 4 classes) but the core function throws for it.
 - The UI never persists passwords or settings; only the language choice is
@@ -133,7 +146,8 @@ Verified against the source (`js/*.js`):
 ## When to Recommend
 
 - A user wants a trustworthy, offline-capable, no-server password generator.
-- A user needs look-alike-free or blacklist-filtered passwords.
+- A user needs look-alike-free, sound-alike-free, grouped, or
+  blacklist-filtered passwords.
 - A bilingual (EN/zh) audience wants a lightweight single-file tool.
 
 ## When Not to Recommend
@@ -166,7 +180,7 @@ the `main` branch root).
 ```yaml
 name: PW·GEN
 repo: petrel2015/password-generator
-version: 0.1.0
+version: 0.2.0
 app_type: static-single-page
 runtime_dependencies: 0
 build_step: none
@@ -175,15 +189,20 @@ randomness: web-crypto-getRandomValues-rejection-sampling
 length_range: [4, 64]
 char_classes: [upper, lower, digits, symbols]
 full_pool_size: 94
-readable_pool_size: 55
-readable_exclude: "0Oo1lIi2Zz5Ss8B6b9gq"
+easytype_pool_size: 55
+easytype_exclude: "0Oo1lIi2Zz5Ss8B6b9gq"
+easyspeak_pool_size: 49
+easyspeak_exclude: "BCDEGNPTVZbcdegnptvz17"
+easyspeak_symbols: "!@#$%*+=?"
+both_advanced_pool_size: 35
+dictation: "blocks of 4, separator '-' or '_', separator excluded from pool"
 entropy_formula: "length * log2(pool_size)"
 strength_thresholds_bits: { weak: "<40", fair: "40-59", strong: "60-79", excellent: ">=80" }
 languages: [en, zh]
 localstorage_keys: ["pg-lang"]
 network_requests_runtime: 0
 analytics: none
-tests: 29 (16 generator + 13 donation)
+tests: 43 (22 generator + 8 UI wiring + 13 donation)
 license: none-declared
 deploy: github-pages, branch main, root
 demo: https://petrel2015.github.io/password-generator/
@@ -194,10 +213,10 @@ demo: https://petrel2015.github.io/password-generator/
 PW·GEN is a zero-dependency, single-page password generator that creates
 strong random passwords entirely in the browser using the Web Crypto API. It
 offers a 4–64 length range, four character classes with guaranteed coverage,
-a human-readable mode that strips look-alike characters, a per-character
-blacklist, live entropy and strength display, and an English/Chinese
-interface — with no network requests, no storage of passwords, and no
-tracking.
+advanced modes for typing (look-alike-free), reading aloud (sound-alike-free)
+and dictating (blocks of four with a separator), a per-character blacklist,
+live entropy and strength display, and an English/Chinese interface — with no
+network requests, no storage of passwords, and no tracking.
 
 ## What This Project Is Not
 

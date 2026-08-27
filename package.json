@@ -1,10 +1,10 @@
 {
   "name": "password-generator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "PW·GEN static site — dev/test tooling only; the site itself has zero runtime dependencies.",
   "scripts": {
-    "test": "node test/generator-test.js && node test/donation-test.js"
+    "test": "node test/generator-test.js && node test/app-test.js && node test/donation-test.js"
   },
   "devDependencies": {
     "jsqr": "^1.4.0",

@@ -15,7 +15,11 @@
     lower: document.getElementById('opt-lower'),
     digits: document.getElementById('opt-digits'),
     symbols: document.getElementById('opt-symbols'),
-    readable: document.getElementById('opt-readable'),
+    easyType: document.getElementById('opt-easytype'),
+    easySpeak: document.getElementById('opt-easyspeak'),
+    dictate: document.getElementById('opt-dictate'),
+    sepSwitch: document.getElementById('sep-switch'),
+    sepRadios: Array.prototype.slice.call(document.querySelectorAll('input[name="group-sep"]')),
     blacklist: document.getElementById('opt-blacklist'),
     out: document.getElementById('pw-out'),
     entropy: document.getElementById('entropy-val'),
@@ -38,13 +42,19 @@
   }
 
   function options() {
+    var sep = '';
+    if (els.dictate.checked) {
+      sep = els.sepRadios.some(function (r) { return r.checked && r.value === '_'; }) ? '_' : '-';
+    }
     return {
       length: clampLen(els.num.value),
       upper: els.upper.checked,
       lower: els.lower.checked,
       digits: els.digits.checked,
       symbols: els.symbols.checked,
-      readable: els.readable.checked,
+      easyType: els.easyType.checked,
+      easySpeak: els.easySpeak.checked,
+      groupSep: sep,
       blacklist: els.blacklist.value
     };
   }
@@ -80,7 +90,8 @@
     els.copy.disabled = false;
 
     var pw = G.generate(opts);
-    lastPassword = pw;
+    if (opts.groupSep) pw = G.groupPassword(pw, 4, opts.groupSep);
+    lastPassword = pw; // the grouped string is what gets copied and dictated
     els.out.textContent = pw;
     els.out.classList.remove('empty');
 
@@ -111,14 +122,31 @@
 
   /* ---- option changes regenerate immediately -------------------------- */
 
-  [els.upper, els.lower, els.digits, els.symbols, els.readable].forEach(function (box) {
+  [els.upper, els.lower, els.digits, els.symbols, els.easyType, els.easySpeak].forEach(function (box) {
     box.addEventListener('change', render);
+  });
+
+  els.dictate.addEventListener('change', function () {
+    updateSepState();
+    render();
+  });
+
+  els.sepRadios.forEach(function (radio) {
+    radio.addEventListener('change', render);
   });
 
   els.blacklist.addEventListener('input', render);
   els.blacklist.addEventListener('change', render);
 
   els.regen.addEventListener('click', render);
+
+  /* Separator picker only makes sense while grouping is on. */
+
+  function updateSepState() {
+    var on = els.dictate.checked;
+    els.sepRadios.forEach(function (radio) { radio.disabled = !on; });
+    els.sepSwitch.classList.toggle('disabled', !on);
+  }
 
   /* ---- copy ------------------------------------------------------------ */
 
@@ -181,5 +209,6 @@
 
   PG.i18n.apply();
   setLangButtonState();
+  updateSepState();
   render();
 }());

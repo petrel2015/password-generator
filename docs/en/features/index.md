@@ -7,7 +7,7 @@ live in the [CHANGELOG](../../../CHANGELOG.md) only.
 
 | Feature | Introduced | Status | Description |
 | --- | --- | --- | --- |
-| [Password Engine](./password-engine.md) | v0.1.0 | Stable | Randomness source, class-guaranteed generation, readable mode, blacklist, entropy model |
+| [Password Engine](./password-engine.md) | v0.2.0 | Stable | Randomness source, class-guaranteed generation, advanced options (easy to type / read aloud / dictate), blacklist, entropy model |
 | [Donation Dialog](./donation-dialog.md) | v0.1.0 | Stable | Browser-generated payment QR codes, mobile hand-off with fallback, accessibility contracts |
 
 > Version note: the repository has no Git tags yet; `v0.1.0` is the

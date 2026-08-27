@@ -396,6 +396,71 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
   color: var(--gray);
 }
 
+/* ---- advanced options ----------------------------------------------------- */
+
+.opts-advanced {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.adv-row { padding: 0.5rem 0; }
+
+.adv-row + .adv-row { border-top: 1px solid var(--hairline); }
+
+.adv-row .hint { margin: 0.15rem 0 0.4rem; }
+
+.adv-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Separator picker — segmented control, same school as the lang switch. */
+
+.sep-switch {
+  display: flex;
+  border: 1px solid var(--ink);
+  flex-shrink: 0;
+}
+
+.sep-switch .seg { display: flex; }
+
+.sep-switch input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  opacity: 0;
+}
+
+.sep-switch span {
+  display: grid;
+  place-content: center;
+  min-width: 46px;
+  min-height: 44px;
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sep-switch .seg + .seg span { border-left: 1px solid var(--ink); }
+
+.sep-switch input:checked + span { background: var(--ink); color: var(--paper); }
+
+.sep-switch input:focus-visible + span {
+  outline: 2px solid var(--red);
+  outline-offset: -3px;
+}
+
+.sep-switch.disabled { opacity: 0.35; }
+
+.sep-switch.disabled span { cursor: not-allowed; }
+
 /* ---- footer --------------------------------------------------------------- */
 
 footer {
@@ -414,7 +479,6 @@ footer p {
 
 @media (min-width: 600px) {
   .opts { grid-template-columns: 1fr 1fr; }
-  .opt-wide { grid-column: 1 / -1; }
 }
 
 @media (max-width: 30rem) {

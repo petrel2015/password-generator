@@ -26,6 +26,7 @@ Detailed documentation for topics summarized in the main
 Design documents for the two subsystems with non-trivial decisions:
 
 - [Password Engine](./features/password-engine.md) — randomness, character
-  classes, readable mode, blacklist, entropy model.
+  classes, advanced options (easy to type / read aloud / dictate), blacklist,
+  entropy model.
 - [Donation Dialog](./features/donation-dialog.md) — live QR generation,
   mobile hand-off and fallback, accessibility contracts.

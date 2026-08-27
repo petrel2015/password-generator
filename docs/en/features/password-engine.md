@@ -31,8 +31,8 @@ representatives, which clumps them at the front.
 - Uniform draws — no modulo bias for any pool size the UI can produce.
 - Exactly one guaranteed character per selected class, without a skewed
   distribution of positions.
-- Readable mode and blacklist as composable pool filters with predictable
-  semantics.
+- Easy-to-type, easy-to-speak and dictation grouping as composable pool
+  filters with predictable semantics, alongside the blacklist.
 - 100% of the logic testable from Node with a deterministic injected RNG.
 - Zero dependencies in the shipped page.
 
@@ -42,8 +42,8 @@ representatives, which clumps them at the front.
   character generator.
 - **Strength checking of user-entered passwords** — the meter scores the
   generator's settings, not arbitrary input.
-- **Pronounceable passwords** — readable mode removes ambiguous characters
-  but does not build syllables.
+- **Pronounceable passwords** — the easy-to-speak filter removes sound-alike
+  characters but does not build syllables.
 - **Seeded / deterministic generation** — regeneration is meant to produce
   *different* output; a master-secret KDF mode is a different product.
 - **Length beyond 64** — UI decision; the core itself only requires
@@ -54,8 +54,8 @@ representatives, which clumps them at the front.
 ## Solution Overview
 
 One UMD module exposes `buildClasses(opts)`, `generate(opts, rng?)`,
-`entropyBits(length, poolSize)`, `strengthLevel(bits)`, and `randomInt(rng,
-max)`.
+`groupPassword(pw, size?, sep?)`, `entropyBits(length, poolSize)`,
+`strengthLevel(bits)`, and `randomInt(rng, max)`.
 
 - **Randomness:** `defaultRng()` reads `Uint32Array(1)` from
   `crypto.getRandomValues` (falling back to Node's `crypto.webcrypto` under
@@ -67,9 +67,10 @@ max)`.
 - **Class guarantee:** take one character from each surviving class, fill the
   remaining positions from the joined pool, then a full Fisher–Yates shuffle
   makes positions exchangeable.
-- **Filtering:** `buildClasses` applies readable-mode replacement (symbols)
-  and exclusion, then blacklist removal; classes that end up empty are
-  dropped from the array entirely.
+- **Filtering:** `buildClasses` applies easy-type replacement/exclusion,
+  easy-speak replacement/exclusion, active-separator removal, then blacklist
+  removal; classes that end up empty are dropped from the array entirely.
+  `groupPassword` is pure layout on top of `generate` output.
 
 ## Detailed Behavior
 
@@ -84,18 +85,37 @@ Character sets as shipped:
 
 Full pool: **94** characters.
 
-**Readable mode** (`READABLE_EXCLUDE = 0Oo1lIi2Zz5Ss8B6b9gq`):
+**Easy-to-type mode** (`TYPE_EXCLUDE = 0Oo1lIi2Zz5Ss8B6b9gq`):
 
 - Uppercase loses `O I Z S B` → 21 left.
 - Lowercase loses `o l i z s b g q` → 18 left.
 - Digits reduce to `347`.
 - Symbols are replaced wholesale by ``!@#$%^&*-_=+?~`` (13).
-- Readable pool: **55** characters.
+- Easy-type pool: **55** characters.
 
-**Blacklist** applies after readable filtering. A class emptied by any
+**Easy-to-speak mode** (`SPEAK_EXCLUDE = BCDEGNPTVZbcdegnptvz17`):
+
+- Letters that share one spoken sound are dropped in both cases: the "ee"
+  family `B C D E G P T V Z`, plus `N` (kept `M` wins the "em/en" pair) →
+  16 uppercase + 16 lowercase remain.
+- Digits lose `1`/`7` (Mandarin "yī"/"qī") → `02345689`.
+- Symbols are replaced by `!@#$%*+=?` (9) — short, distinct spoken names.
+- Easy-speak pool: **49** characters.
+
+**Both advanced filters together:** uppercase 13, lowercase 11 (`l`/`q`
+already removed by easy-type), digits `34`, speakable symbols 9 → **35**
+characters. 16 characters still rate ~82 bits.
+
+**Dictation grouping** (`groupSep = '-' | '_'`): the active separator is
+removed from the candidate pool (symbols 32 → 31, easy-type symbols 13 → 12;
+the speakable subset never contained either), then `groupPassword` joins
+blocks of four with it. Separators are layout only — entropy counts the real
+characters, and copying yields the grouped string.
+
+**Blacklist** applies after all of the above. A class emptied by any
 filter is skipped — it neither contributes a guaranteed character nor
-appears in the joined pool. Order of effects: readable → blacklist → drop
-empties.
+appears in the joined pool. Order of effects: easy-type → easy-speak →
+separator removal → blacklist → drop empties.
 
 **Errors thrown by the core:**
 
@@ -123,7 +143,11 @@ max classes); it exists to protect programmatic callers.
 The engine has no UI of its own; `js/app.js` maps it to the page: the
 password output, the entropy readout, the four-segment meter, and two
 warning states ("Select at least one character set." / "No usable characters
-left — adjust the blacklist."). Every option change regenerates immediately.
+left — adjust the blacklist."). Basic controls (length, four classes,
+blacklist) live in section 02 — Settings; the three advanced modes
+(**Easy to type**, **Easy to read aloud**, **Easy to dictate** with a
+hyphen/underscore separator picker) live in their own section 03 — Advanced.
+Every option change regenerates immediately.
 See [Usage](../usage.md#generating-a-password).
 
 ![Generator UI](../../img/overview-en.webp)
@@ -150,10 +174,10 @@ No measurement claims beyond that are made here.
 
 ## Current Limitations
 
-- The guaranteed-character rule is per *surviving* class: with readable +
-  blacklist combined, "guaranteed" can silently mean fewer classes than the
-  user ticked (the UI shows the pool honestly via entropy, but does not
-  flag dropped classes individually).
+- The guaranteed-character rule is per *surviving* class: with advanced
+  filters + blacklist combined, "guaranteed" can silently mean fewer classes
+  than the user ticked (the UI shows the pool honestly via entropy, but does
+  not flag dropped classes individually).
 - `entropyBits` is an estimate of the uniform upper bound, not the exact
   min-entropy of the guaranteed-class distribution (difference is
   negligible at ≥4 characters).
@@ -164,13 +188,14 @@ No measurement claims beyond that are made here.
 ## Release Information
 
 - Introduced: v0.1.0 (2026-08-27)
+- Advanced options (easy to type / read aloud / dictate): v0.2.0 (2026-08-27)
 - Status: Stable
 
 ## Related Documentation
 
 - [Usage — Generating a password](../usage.md#generating-a-password) ·
   [Reading entropy and strength](../usage.md#reading-entropy-and-strength) ·
-  [Human-readable mode](../usage.md#human-readable-mode) ·
+  [Advanced options](../usage.md#advanced-options) ·
   [Blacklist](../usage.md#blacklist)
 - [Development — What the tests cover](../development.md#what-the-tests-cover)
 - [Donation Dialog](./donation-dialog.md) — the other feature's use of lazy
@@ -178,6 +203,14 @@ No measurement claims beyond that are made here.
 - [FAQ](../faq.md) — entropy, length cap, offline use
 
 ## Feature Changelog
+
+### v0.2.0
+
+Advanced options moved to their own UI level (section 03): easy-to-type
+(renamed from "human-readable"), easy-to-speak filter
+(`BCDEGNPTVZbcdegnptvz17` + speakable symbol subset), and dictation
+grouping (`groupPassword`, hyphen/underscore, separator kept out of the
+pool). 22 Node tests.
 
 ### v0.1.0
 

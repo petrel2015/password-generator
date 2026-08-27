@@ -13,6 +13,37 @@ entry will be split into per-version sections once the first tag is created.
 
 Nothing yet.
 
+## [0.2.0] - 2026-08-27
+
+### Added
+
+- **Advanced options** in their own "03 — Advanced" UI section, clearly
+  separated from the basic character-set toggles:
+  - **Easy to read aloud** — excludes characters whose spoken names are
+    easily confused (`B C D E G P T V Z` both cases, `N` in favour of `M`,
+    digits `1`/`7` for the Mandarin "yī/qī" pair) and narrows symbols to a
+    speakable subset `!@#$%*+=?` (pool 94 → 49).
+  - **Easy to dictate** — groups the password into blocks of four with a
+    hyphen or underscore separator (two-choice picker); separators are pure
+    layout (no entropy), are never drawn from the pool, and the grouped
+    string is what gets copied.
+
+### Changed
+
+- **Human-readable mode renamed to "Easy to type"** and moved from the
+  character-set grid into the new advanced section; the filtering behavior
+  is unchanged (`0Oo1lIi2Zz5Ss8B6b9gq`, visible-only symbols, pool 94 → 55).
+  Both advanced filters can be combined (pool 94 → 35).
+
+### Tests
+
+- Generator suite extended from 16 to 22 tests (speak-mode exclusions,
+  filter stacking, grouping layout, separator pool removal).
+- New `test/app-test.js` — 8 UI-wiring tests that load the real
+  `app.js`/`i18n.js`/`generator.js` against a minimal DOM stub: option
+  toggles, separator switching, grouped display, entropy readout,
+  blacklist interplay (total suite: 43 tests).
+
 ## [0.1.0] - 2026-08-27
 
 First public release on GitHub Pages. This entry summarizes the complete

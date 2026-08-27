@@ -13,8 +13,8 @@ Every claim below was checked against the source (`js/*.js`,
 
 **Nothing else is stored.** Passwords are never written to localStorage,
 sessionStorage, cookies, IndexedDB, or any disk cache by the page's own code.
-Generator settings (length, classes, readable, blacklist) deliberately do
-not persist — a reload resets them.
+Generator settings (length, classes, advanced options, blacklist)
+deliberately do not persist — a reload resets them.
 
 ## Network behavior
 

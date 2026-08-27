@@ -57,8 +57,6 @@
         <label class="opt"><input type="checkbox" id="opt-lower" checked><span data-i18n="optLower">Lowercase (a–z)</span></label>
         <label class="opt"><input type="checkbox" id="opt-digits" checked><span data-i18n="optDigits">Digits (0–9)</span></label>
         <label class="opt"><input type="checkbox" id="opt-symbols" checked><span data-i18n="optSymbols">Symbols (!@#$%…)</span></label>
-        <label class="opt opt-wide"><input type="checkbox" id="opt-readable"><span data-i18n="readable">Human-readable</span></label>
-        <p class="hint" data-i18n="readableHint">Excludes look-alike characters (0/O, 1/l/I, 2/Z …) and keeps only clearly visible symbols.</p>
       </fieldset>
       <div class="field field-blacklist">
         <div class="field-head">
@@ -67,6 +65,31 @@
         <input type="text" id="opt-blacklist" class="text-input" autocomplete="off" autocapitalize="off" spellcheck="false" data-i18n-placeholder="blacklistPh" placeholder="e.g. 0OoIl1">
         <p class="hint" data-i18n="blacklistHint">Every character typed here is removed from the candidate pool. If a set is emptied entirely, it is skipped.</p>
       </div>
+    </section>
+
+    <section class="section">
+      <h2 class="label" data-i18n="secAdvanced">03 — Advanced</h2>
+      <fieldset class="opts-advanced">
+        <legend class="vh" data-i18n="legendAdvanced">Advanced options</legend>
+        <div class="adv-row">
+          <label class="opt"><input type="checkbox" id="opt-easytype"><span data-i18n="easyType">Easy to type</span></label>
+          <p class="hint" data-i18n="easyTypeHint">Excludes look-alike characters (0/O, 1/l/I, 2/Z …) and keeps only clearly visible symbols.</p>
+        </div>
+        <div class="adv-row">
+          <label class="opt"><input type="checkbox" id="opt-easyspeak"><span data-i18n="easySpeak">Easy to read aloud</span></label>
+          <p class="hint" data-i18n="easySpeakHint">Excludes characters that sound alike when spoken (B/C/D/E/G/P/T/V/Z, M/N, 1/7), so every character is heard unambiguously.</p>
+        </div>
+        <div class="adv-row">
+          <div class="adv-row-head">
+            <label class="opt"><input type="checkbox" id="opt-dictate"><span data-i18n="easyDictate">Easy to dictate</span></label>
+            <div class="sep-switch" id="sep-switch" role="radiogroup" data-i18n-aria-label="sepAria" aria-label="Group separator">
+              <label class="seg"><input type="radio" name="group-sep" value="-" checked disabled><span>-</span></label>
+              <label class="seg"><input type="radio" name="group-sep" value="_" disabled><span>_</span></label>
+            </div>
+          </div>
+          <p class="hint" data-i18n="easyDictateHint">Splits the password into blocks of four with a separator (e.g. k3WF-pmQx) so it can be read out chunk by chunk. The separator never appears inside the password itself.</p>
+        </div>
+      </fieldset>
     </section>
   </main>
 
