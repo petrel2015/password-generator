@@ -1,5 +1,6 @@
 {
   "name": "password-generator",
+  "version": "0.1.0",
   "private": true,
   "description": "PW·GEN static site — dev/test tooling only; the site itself has zero runtime dependencies.",
   "scripts": {
