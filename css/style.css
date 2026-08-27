@@ -418,7 +418,7 @@ footer p {
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  margin: 0 0 1.2rem;
+  margin: 0 0 1.1rem;
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -430,39 +430,82 @@ footer p {
   background: var(--hairline);
 }
 
-.donate-qr {
+.donate-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
 }
 
-.donate-item {
-  margin: 0;
-}
-
-.donate-item img {
-  display: block;
-  width: clamp(7.5rem, 30vw, 9rem);
-  height: auto;
-  padding: 0.45rem;
-  background: var(--paper);
-  border: 1px solid var(--ink);
-}
-
-.donate-item figcaption {
-  margin-top: 0.55rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gray);
+.btn-donate {
+  flex: 1;
+  min-width: 8rem;
 }
 
 .donate-hint {
   margin: 0;
   font-size: 0.8rem;
   color: var(--gray);
+}
+
+/* ---- donate modal ---------------------------------------------------------- */
+
+.donate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.donate-overlay[hidden] { display: none; }
+
+.donate-modal {
+  position: relative;
+  width: 100%;
+  max-width: 21rem;
+  padding: 1.7rem 1.5rem 1.4rem;
+  text-align: center;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+}
+
+.donate-modal-title {
+  margin: 0 0 1.1rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.donate-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-left: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.donate-close:hover { background: var(--ink); color: var(--paper); }
+
+.donate-close:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
+
+.donate-qr-img {
+  display: block;
+  width: min(15rem, 68vw);
+  height: auto;
+  margin: 0 auto 1rem;
+  padding: 0.45rem;
+  background: var(--paper);
+  border: 1px solid var(--ink);
 }
 
 /* ---- responsive ------------------------------------------------------------ */

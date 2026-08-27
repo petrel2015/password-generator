@@ -72,20 +72,22 @@
   <footer>
     <div class="donate">
       <p class="donate-tag" data-i18n="donateTag">请我喝杯咖啡 ￥4.9</p>
-      <div class="donate-qr">
-        <figure class="donate-item">
-          <img src="img/alipay-qr.png" width="560" height="560" data-i18n-alt="qrAltAlipay" alt="支付宝收款码">
-          <figcaption data-i18n="donateAlipay">支付宝</figcaption>
-        </figure>
-        <figure class="donate-item">
-          <img src="img/wechat-qr.png" width="560" height="560" data-i18n-alt="qrAltWechat" alt="微信收款码">
-          <figcaption data-i18n="donateWechat">微信</figcaption>
-        </figure>
+      <div class="donate-actions">
+        <button type="button" class="btn btn-donate" id="donate-alipay" data-i18n="donateAlipay">支付宝</button>
+        <button type="button" class="btn btn-donate" id="donate-wechat" data-i18n="donateWechat">微信</button>
       </div>
-      <p class="donate-hint" data-i18n="donateHint">长按或保存二维码，打开支付宝 / 微信扫一扫</p>
     </div>
     <p data-i18n="footer">All generation happens locally in your browser — no network requests, no storage, no tracking.</p>
   </footer>
+
+  <div class="donate-overlay" id="donate-overlay" hidden>
+    <div class="donate-modal" role="dialog" aria-modal="true" aria-labelledby="donate-modal-title">
+      <button type="button" class="donate-close" id="donate-close" data-i18n-aria-label="donateClose" aria-label="关闭">×</button>
+      <h3 class="donate-modal-title" id="donate-modal-title" data-i18n="donateTag">请我喝杯咖啡 ￥4.9</h3>
+      <img class="donate-qr-img" id="donate-qr-img" src="img/alipay-qr.png" alt="">
+      <p class="donate-hint" id="donate-hint"></p>
+    </div>
+  </div>
 
 </div>
 <script src="js/generator.js"></script>

@@ -51,9 +51,11 @@
       donateTag: 'Buy me a coffee ￥4.9',
       donateAlipay: 'Alipay',
       donateWechat: 'WeChat',
-      qrAltAlipay: 'Alipay QR code',
-      qrAltWechat: 'WeChat QR code',
-      donateHint: 'Long-press or save the QR code, then scan it with Alipay / WeChat'
+      donateModalAria: '{channel} tip QR code',
+      donateClose: 'Close',
+      donateQrAlt: '{channel} QR code',
+      donateAlipayHint: 'Long-press or save the QR, then scan with Alipay',
+      donateWechatHint: 'Long-press or save the QR, then scan with WeChat'
     },
 
     zh: {
@@ -95,9 +97,11 @@
       donateTag: '请我喝杯咖啡 ￥4.9',
       donateAlipay: '支付宝',
       donateWechat: '微信',
-      qrAltAlipay: '支付宝收款码',
-      qrAltWechat: '微信收款码',
-      donateHint: '长按或保存二维码，打开支付宝 / 微信扫一扫'
+      donateModalAria: '{channel}赞赏二维码',
+      donateClose: '关闭',
+      donateQrAlt: '{channel}收款码',
+      donateAlipayHint: '长按或保存二维码，打开支付宝扫一扫',
+      donateWechatHint: '长按或保存二维码，打开微信扫一扫'
     }
   };
 
