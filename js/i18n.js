@@ -46,16 +46,7 @@
       blacklistHint: 'Every character typed here is removed from the candidate pool. If a set is emptied entirely, it is skipped.',
       emptyPool: 'No usable characters left — adjust the blacklist.',
 
-      footer: 'All generation happens locally in your browser — no network requests, no storage, no tracking.',
-
-      donateTag: 'Buy me a coffee ￥4.9',
-      donateAlipay: 'Alipay',
-      donateWechat: 'WeChat',
-      donateModalAria: '{channel} tip QR code',
-      donateClose: 'Close',
-      donateQrAlt: '{channel} QR code',
-      donateAlipayHint: 'Long-press or save the QR, then scan with Alipay',
-      donateWechatHint: 'Long-press or save the QR, then scan with WeChat'
+      footer: 'All generation happens locally in your browser — no network requests, no storage, no tracking.'
     },
 
     zh: {
@@ -92,16 +83,7 @@
       blacklistHint: '在此输入的每个字符都会从候选池中剔除；若某类字符被全部排除，该类将不参与生成。',
       emptyPool: '没有可用字符了——请调整黑名单。',
 
-      footer: '全部生成过程在本地浏览器完成——无网络请求、无存储、无追踪。',
-
-      donateTag: '请我喝杯咖啡 ￥4.9',
-      donateAlipay: '支付宝',
-      donateWechat: '微信',
-      donateModalAria: '{channel}赞赏二维码',
-      donateClose: '关闭',
-      donateQrAlt: '{channel}收款码',
-      donateAlipayHint: '长按或保存二维码，打开支付宝扫一扫',
-      donateWechatHint: '长按或保存二维码，打开微信扫一扫'
+      footer: '全部生成过程在本地浏览器完成——无网络请求、无存储、无追踪。'
     }
   };
 

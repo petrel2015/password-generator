@@ -1,0 +1,14 @@
+{
+  "name": "password-generator",
+  "private": true,
+  "description": "PW·GEN static site — dev/test tooling only; the site itself has zero runtime dependencies.",
+  "scripts": {
+    "test": "node test/generator-test.js && node test/donation-test.js"
+  },
+  "devDependencies": {
+    "jsqr": "^1.4.0",
+    "pngjs": "^7.0.0",
+    "qrcode": "^1.5.4",
+    "qrcode-generator": "^2.0.4"
+  }
+}
