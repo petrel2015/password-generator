@@ -1,11 +1,13 @@
 /* =====================================================================
-   PW·GEN — donation (footer entry + QR dialog)
-   Reuses the site's CSS variables only; flat, square, hairline —
-   the entry is a secondary action, quieter than the main buttons.
+   PW·GEN — donation (footer entry + QR dialog) · 同程研报风 skin
+   Reuses the site tokens only. The entry is a quiet editorial link;
+   the dialog is the one floating surface allowed a hairline border
+   plus the single shallow shadow token. Class names are the mount
+   contract with js/donation.js — restyle, never rename.
    ===================================================================== */
 
 [data-donation] {
-  margin-top: 0.6rem;
+  margin-top: 1.4rem;
 }
 
 .donation-entry {
@@ -18,18 +20,18 @@
   padding: 0.2rem 0;
   font: inherit;
   font-size: 0.85rem;
-  color: var(--gray);
+  color: var(--brand);
   cursor: pointer;
 }
 
 .donation-entry:hover {
-  color: var(--ink);
+  color: var(--brand-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .donation-entry:focus-visible {
-  outline: 2px solid var(--red);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
@@ -43,7 +45,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(36, 31, 53, 0.32); /* ink wash over paper */
 }
 
 .donation-overlay[hidden] { display: none; }
@@ -54,7 +56,9 @@
   max-width: 22rem;
   padding: 1.7rem 1.5rem 1.5rem;
   background: var(--paper);
-  border: 1px solid var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
 }
 
 .donation-close {
@@ -64,8 +68,9 @@
   width: 44px;
   height: 44px;
   border: 0;
-  border-left: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
+  border-left: 1px solid var(--line-lo);
+  border-bottom: 1px solid var(--line-lo);
+  border-radius: 0 10px 0 8px;
   background: var(--paper);
   color: var(--ink);
   font: inherit;
@@ -77,27 +82,30 @@
 .donation-close:hover { background: var(--ink); color: var(--paper); }
 
 .donation-close:focus-visible {
-  outline: 2px solid var(--red);
+  outline: 2px solid var(--brand);
   outline-offset: -2px;
 }
 
 .donation-title {
   margin: 0 0 0.5rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
 }
 
 .donation-desc {
   margin: 0 0 1.2rem;
   font-size: 0.85rem;
-  color: var(--gray);
+  color: var(--ink-md);
 }
 
-/* ---- channel tabs --------------------------------------------------------- */
+/* ---- channel tabs ---------------------------------------------------------
+   Segmented control, same family as the language switch. */
 
 .donation-tabs {
   display: flex;
-  border: 1px solid var(--ink);
+  border: 1.5px solid var(--brand);
+  border-radius: 6px;
+  overflow: hidden;
   margin-bottom: 1.2rem;
 }
 
@@ -107,25 +115,25 @@
   appearance: none;
   border: 0;
   background: var(--paper);
-  color: var(--ink);
+  color: var(--brand);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
   padding: 0 0.5rem;
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.donation-tab + .donation-tab { border-left: 1px solid var(--ink); }
+.donation-tab + .donation-tab { border-left: 1px solid var(--line); }
 
 .donation-tab[aria-selected="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--brand);
+  color: #fff;
 }
 
 .donation-tab:focus-visible {
-  outline: 2px solid var(--red);
-  outline-offset: -2px;
+  outline: 2px solid var(--brand);
+  outline-offset: -3px;
 }
 
 /* ---- body states ------------------------------------------------------------ */
@@ -143,7 +151,8 @@
   display: block;
   padding: 0.45rem;
   background: #ffffff; /* QR stays dark-on-white regardless of theme */
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--line);
+  border-radius: 6px;
 }
 
 .donation-opening,
@@ -152,32 +161,40 @@
 .donation-error {
   margin: 0;
   font-size: 0.8rem;
-  color: var(--gray);
+  color: var(--ink-md);
   text-align: center;
 }
 
 .donation-fallback-msg { font-weight: 600; color: var(--ink); }
 
-.donation-error { color: var(--red); font-weight: 600; }
+.donation-error { color: var(--neg); font-weight: 600; }
 
 .donation-show-qr {
   appearance: none;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
+  color: var(--brand);
   background: var(--paper);
-  border: 1px solid var(--ink);
+  border: 1.5px solid var(--brand);
+  border-radius: 999px;
   min-height: 44px;
-  padding: 0 1.4rem;
+  padding: 0 1.5rem;
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.donation-show-qr:hover { background: var(--ink); color: var(--paper); }
+.donation-show-qr:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
 
 .donation-show-qr:focus-visible {
-  outline: 2px solid var(--red);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donation-entry, .donation-tab, .donation-show-qr { transition: none; }
 }

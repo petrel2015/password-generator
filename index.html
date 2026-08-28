@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Strong random passwords, generated locally in your browser. 强度随机的密码，全部在浏览器本地生成。">
   <title>PW·GEN — Password Generator</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23d52b1e'/%3E%3Cpath d='M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon-180.png">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/donation.css">
 </head>
@@ -24,6 +28,7 @@
 
   <main>
     <section class="hero">
+      <p class="kicker" data-i18n="kicker">PW·GEN · Randomness · Local · Zero network</p>
       <h1><span data-i18n="h1a">Password</span><br><span class="l2" data-i18n="h1b">Generator</span></h1>
       <p class="lead" data-i18n="lead">Strong, random passwords — generated entirely in your browser. Nothing is stored, nothing leaves this page.</p>
     </section>
@@ -35,9 +40,10 @@
         <button type="button" id="btn-copy" class="btn" data-i18n-aria-label="copyAria" data-i18n="copy">Copy</button>
       </div>
       <div class="result-meta">
-        <p class="meta-text"><span id="entropy-val">—</span><span class="sep"> · </span><span id="strength-val">—</span></p>
+        <p class="meta-text"><span id="entropy-val" class="hl">—</span><span class="sep"> · </span><span id="strength-val">—</span></p>
         <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       </div>
+      <p class="chart-src">entropy = length × log₂(pool)</p>
       <p id="warn" class="warn" hidden></p>
       <button type="button" id="btn-regen" class="btn btn-primary btn-regen" data-i18n="regen">Regenerate</button>
     </section>
@@ -94,8 +100,11 @@
   </main>
 
   <footer>
+    <div class="sec-no" data-i18n="methodTitle">Methodology &amp; Notes</div>
     <p data-i18n="footer">All generation happens locally in your browser — no network requests, no storage, no tracking.</p>
+    <p data-i18n="methodBody">Entropy is estimated as length × log₂(pool size) in bits, using the effective character pool after every option and blacklist character are applied.</p>
     <div data-donation></div>
+    <p class="disc" data-i18n="disc">Strength labels are heuristic · entropy assumes uniform random selection · everything is generated on this device.</p>
   </footer>
 
 </div>

@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════════════════
+   PW·GEN — research-report design tokens · 同程紫黄 (v3)
+   Copied from the research-report-style skill (assets/tokens.css).
+   三色宪法：紫 = 交互识别（唯一彩色文字）/ 黄 = 仅底色强调 /
+   红 = 仅警示。骨架：白纸、紫黑墨阶、发丝线、衬线叙事+等宽事实。
+   Values are the style; do not retune.
+   Local adaptations for this bilingual site (marked below):
+   · --mono lists CJK serifs before the generic monospace so Han
+     glyphs inside mono runs (kickers, zh units) render as serif,
+     never as sans.
+   Trimmed to the primitives this page actually uses.
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  /* 纸面 */
+  --paper: #ffffff;
+  --paper-hi: #f8f7fb;              /* 紫调浅面板 */
+  /* 墨阶（紫黑调——连黑白灰都为品牌让色） */
+  --ink: #241f35;
+  --ink-md: #57516b;
+  --ink-lo: #8b8698;
+  /* 发丝线 */
+  --line: #e3e0eb;
+  --line-lo: #f0eef5;
+  /* ── 三色宪法 ──
+     紫=交互识别：链接/kicker/章节号/图表当期系列/active，唯一可作文字的彩色
+     黄=仅底色：荧光笔压关键短语、对比系列、章节方点，永不作白底文字色
+     红=仅警示：下行/缺失/风险，不表达涨跌方向 */
+  --brand: #56338a;
+  --brand-deep: #3e2465;
+  --brand-tint: #c9bce2;
+  --wash: rgba(86,51,138,.05);
+  --wash-sel: rgba(86,51,138,.16);
+  --hl: #f6c343;
+  --hl-strong: rgba(246,195,67,.55);
+  --hl-soft: rgba(246,195,67,.16);
+  --neg: #b02418;
+  /* 字体两声部：衬线叙事 + 等宽事实。CJK 回退衬线，禁黑体正文 */
+  --serif: "Spectral", "Noto Serif SC", "Songti SC", "STSong", "Iowan Old Style", Georgia, serif;
+  --sans: var(--serif);
+  /* 本站适配：mono 栈尾插 CJK 衬线，避免 zh 单位/kicker 漏成黑体 */
+  --mono: "IBM Plex Mono", Menlo, Consolas, "Noto Serif SC", "Songti SC", "STSong", monospace;
+  --shadow: 0 1px 2px rgba(36,31,53,.05), 0 8px 28px rgba(36,31,53,.07); /* 仅浮层卡片用 */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--wash-sel); }
+a { color: var(--brand); }
+b, strong { font-weight: 700; }
+em { font-style: italic; }
+.mono, .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-lo); font-size: 14px; }
+
+/* ── 荧光笔：黄只做底色 ── */
+.hl { background: linear-gradient(to top, var(--hl-strong) 30%, transparent 30%); }
+.hl-soft { background: linear-gradient(to top, var(--hl-soft) 42%, transparent 42%); }
+
+h2 { font-size: clamp(26px, 3vw, 34px); font-weight: 700; line-height: 1.28;
+     letter-spacing: -.01em; margin-bottom: 18px; }
+h3 { font-size: 20px; font-weight: 700; margin: 26px 0 12px; }
+
+/* ── 章节头：黄方点 + 紫等宽 kicker + 尾随发丝线 ── */
+.sec-no { display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .22em;
+  color: var(--brand); text-transform: uppercase; }
+.sec-no::before { content: ""; width: 8px; height: 8px; background: var(--hl); flex: 0 0 auto; }
+.sec-no::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ── 封面 kicker：紫等宽大写宽字距 ── */
+.kicker { font-family: var(--mono); font-size: 11.5px; letter-spacing: .3em;
+  color: var(--brand); text-transform: uppercase; margin-bottom: 24px; }
+
+/* ── 图表来源行 / 脚注（数据展品“四件套”之来源件） ── */
+.chart-src { font-family: var(--mono); font-size: 10px; color: var(--ink-lo); margin: 10px 0 4px; }
+.chart-foot { font-family: var(--mono); font-size: 9.5px; color: var(--ink-lo); margin: 8px 0 0; }
+
+/* ── 警示条：红仅在此类组件出现 ── */
+.warn-note { font-family: var(--mono); font-size: 11.5px; color: var(--neg);
+  border: 1px dashed var(--neg); border-radius: 4px; padding: 8px 12px;
+  background: rgba(176,36,24,.045); }

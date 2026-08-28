@@ -18,6 +18,7 @@
       langAria: 'Language',
       h1a: 'Password',
       h1b: 'Generator',
+      kicker: 'PW·GEN · Randomness · Local · Zero network',
       lead: 'Strong, random passwords — generated entirely in your browser. Nothing is stored, nothing leaves this page.',
 
       secPw: '01 — Password',
@@ -54,7 +55,10 @@
       easyDictateHint: 'Splits the password into blocks of four with a separator (e.g. k3WF-pmQx) so it can be read out chunk by chunk. The separator never appears inside the password itself.',
       sepAria: 'Group separator',
 
-      footer: 'All generation happens locally in your browser — no network requests, no storage, no tracking.'
+      footer: 'All generation happens locally in your browser — no network requests, no storage, no tracking.',
+      methodTitle: 'Methodology & Notes',
+      methodBody: 'Entropy is estimated as length × log₂(pool size) in bits, using the effective character pool after every option and blacklist character are applied. Randomness is drawn from the Web Crypto API (crypto.getRandomValues) with rejection sampling, so no modulo bias is introduced. Group separators are display-only and never reduce entropy.',
+      disc: 'Strength labels are heuristic · entropy assumes uniform random selection · everything is generated on this device.'
     },
 
     zh: {
@@ -63,6 +67,7 @@
       langAria: '语言',
       h1a: '密码',
       h1b: '生成器',
+      kicker: 'PW·GEN · 随机 · 本地 · 零网络',
       lead: '在浏览器本地生成高强度随机密码。不存储、不联网，密码不会离开这个页面。',
 
       secPw: '01 — 密码',
@@ -99,7 +104,10 @@
       easyDictateHint: '按 4 位一组用连字符或下划线分段（如 k3WF-pmQx），逐段复述、抄写更省力；分隔符本身不会出现在密码字符中。',
       sepAria: '分组分隔符',
 
-      footer: '全部生成过程在本地浏览器完成——无网络请求、无存储、无追踪。'
+      footer: '全部生成过程在本地浏览器完成——无网络请求、无存储、无追踪。',
+      methodTitle: '方法论与说明',
+      methodBody: '熵值按「长度 × log₂(字符池大小)」比特估算，字符池为应用全部选项与黑名单后的有效集合。随机数取自浏览器 Web Crypto（crypto.getRandomValues），并采用拒绝采样以避免模偏差；分组分隔符仅用于展示，不参与生成、不降低熵。',
+      disc: '强度评级为启发式估计 · 熵值假设字符均匀随机抽取 · 全部在本机生成。'
     }
   };
 

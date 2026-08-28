@@ -1,33 +1,11 @@
 /* =====================================================================
-   PW·GEN — stylesheet
-   Swiss / German school: white paper, near-black ink, hairline rules,
-   Helvetica system stack, one red accent, no gradients or shadows.
+   PW·GEN — stylesheet · research-report skin, 同程紫黄 theme
+   Three-color constitution (tokens in css/tokens.css):
+   purple #56338A is the ONLY colored text (interaction identity);
+   yellow #F6C343 appears only as background (highlighter, dots);
+   red #B02418 only for warnings. White paper, purple-black ink
+   steps, hairline components, serif narrative + mono data.
    ===================================================================== */
-
-:root {
-  --ink: #111111;
-  --paper: #ffffff;
-  --hairline: #e4e4e4;
-  --gray: #666666;
-  --red: #d52b1e;
-  --sans: "Helvetica Neue", Helvetica, "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-}
-
-* { box-sizing: border-box; }
-
-html { -webkit-text-size-adjust: 100%; }
-
-body {
-  margin: 0;
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--ink);
-  background: var(--paper);
-}
-
-::selection { background: var(--ink); color: var(--paper); }
 
 .vh {
   position: absolute;
@@ -40,113 +18,143 @@ body {
 }
 
 .page {
-  max-width: 40rem;
+  max-width: 700px; /* the skill's prose measure */
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 24px;
 }
 
-/* ---- masthead ------------------------------------------------------ */
-
-.masthead { border-top: 3px solid var(--ink); }
+/* ---- masthead ------------------------------------------------------
+   The brand mark speaks the favicon's language: purple-mono wordmark
+   prefixed by the yellow square (the same 8px dot as every § head). */
 
 .masthead-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.9rem 0;
-  border-bottom: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--line);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.6rem;
+  font-family: var(--mono);
   font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.12em;
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
 }
 
 .brand::before {
   content: "";
-  width: 0.7rem;
-  height: 0.7rem;
-  background: var(--red);
+  width: 8px;
+  height: 8px;
+  background: var(--hl);
 }
 
-.lang-switch { display: flex; border: 1px solid var(--ink); }
+/* Segmented controls (language / separator): purple outline,
+   selected = solid purple — interaction identity, never yellow. */
+.lang-switch {
+  display: flex;
+  border: 1.5px solid var(--brand);
+  border-radius: 4px;
+  overflow: hidden;
+}
 
 .lang-switch button {
   appearance: none;
   border: 0;
   background: var(--paper);
-  color: var(--ink);
+  color: var(--brand);
   font: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 0.82rem;
+  font-weight: 700;
   min-height: 44px;
   padding: 0 1rem;
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.lang-switch button + button { border-left: 1px solid var(--ink); }
+.lang-switch button + button { border-left: 1px solid var(--line); }
 
 .lang-switch button[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--brand);
+  color: #fff;
 }
 
-/* ---- hero ----------------------------------------------------------- */
+/* ---- hero (cover language: purple mono kicker + serif title,
+   second line carries the page's one colored word) */
 
-.hero { padding: 3rem 0 2.25rem; }
+.hero { padding: 3.2rem 0 2.4rem; }
 
 .hero h1 {
   margin: 0 0 1.4rem;
-  font-size: clamp(2.9rem, 13vw, 4.4rem);
+  font-size: clamp(2.7rem, 9vw, 4.1rem);
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
-.hero h1 .l2 { color: #9c9c9c; }
+.hero h1 .l2 { color: var(--brand); }
 
 .lead {
   margin: 0;
-  max-width: 34rem;
-  color: #444;
+  max-width: 600px;
+  font-size: 1.02rem;
+  line-height: 1.78;
+  color: var(--ink-md);
 }
 
-/* ---- sections ------------------------------------------------------- */
+/* ---- sections -------------------------------------------------------
+   Labels ride the skill's § pattern: yellow square + purple mono
+   kicker + hairline running off to the right. */
 
-.section { padding: 1.9rem 0; }
+.section {
+  padding: 2.2rem 0;
+  border-top: 1px solid var(--line-lo);
+}
 
 .label {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  margin: 0 0 1.2rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  gap: 10px;
+  margin: 0 0 1.3rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
+  color: var(--brand);
+}
+
+.label::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--hl);
+  flex: 0 0 auto;
 }
 
 .label::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--hairline);
+  background: var(--line);
 }
 
-/* ---- result ---------------------------------------------------------- */
+/* ---- result ----------------------------------------------------------
+   The password is the page's key exhibit — metric-strip language:
+   a 2px ink top rule (顶重线), hairline below, no side boxes.
+   Entropy is the headline figure: purple mono bold under the yellow
+   highlighter. Weak strength is the only red (warning semantics). */
 
 .pw-box {
   display: flex;
   align-items: center;
   gap: 1.1rem;
-  padding: 0.95rem 1.15rem;
-  border: 1px solid var(--ink);
+  padding: 1.05rem 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 
 .pw {
@@ -154,82 +162,108 @@ body {
   min-width: 0;
   margin: 0;
   font-family: var(--mono);
-  font-size: clamp(1.15rem, 4.5vw, 1.45rem);
-  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.15rem, 4.5vw, 1.4rem);
   line-height: 1.4;
   word-break: break-all;
 }
 
-.pw.empty { color: #b9b9b9; }
+.pw.empty { color: var(--ink-lo); }
 
 .result-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  margin-top: 0.8rem;
-  font-size: 0.85rem;
-  color: var(--gray);
+  margin-top: 0.7rem;
 }
 
-.meta-text { margin: 0; }
+.meta-text {
+  margin: 0;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--brand);
+}
 
-.sep { color: #b5b5b5; }
+#entropy-val { padding: 0 2px; } /* breathing room around the highlighter */
 
-#strength-val.weak { color: var(--red); font-weight: 700; }
+.sep { color: var(--ink-lo); font-weight: 400; }
 
+#strength-val.weak { color: var(--neg); }
+
+/* Strength meter = a four-cell dot-matrix strip:
+   filled cells = current strength (purple), level 0 = warning red. */
 .meter { display: flex; gap: 4px; }
 
 .meter i {
   display: block;
-  width: 1.6rem;
-  height: 5px;
-  background: var(--hairline);
+  width: 1.4rem;
+  height: 8px;
+  background: var(--line-lo);
+  border-radius: 2px;
 }
 
-.meter i.on { background: var(--ink); }
-.meter[data-level="0"] i.on { background: var(--red); }
+.meter i.on { background: var(--brand); }
 
+.meter[data-level="0"] i.on { background: var(--neg); }
+
+/* Warnings ride the warn-note component: mono red, dashed red frame.
+   Red exists nowhere else on this page. */
 .warn {
   margin: 0.9rem 0 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--red);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--neg);
+  border: 1px dashed var(--neg);
+  border-radius: 4px;
+  padding: 0.55rem 0.75rem;
+  background: rgba(176, 36, 24, 0.045);
 }
 
 .warn[hidden] { display: none; }
 
-/* ---- buttons ---------------------------------------------------------- */
+/* ---- buttons ----------------------------------------------------------
+   Pills are the only button form: serif bold, 1.5px purple outline,
+   fully round; hover inverts to solid purple. */
 
 .btn {
   appearance: none;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
+  color: var(--brand);
   background: var(--paper);
-  border: 1px solid var(--ink);
+  border: 1.5px solid var(--brand);
+  border-radius: 999px;
   min-height: 44px;
-  padding: 0 1.4rem;
+  padding: 0 1.5rem;
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.btn:hover { background: var(--ink); color: var(--paper); }
-
-.btn-primary {
-  background: var(--ink);
-  color: var(--paper);
+.btn:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
 }
 
-.btn-primary:hover { background: var(--red); border-color: var(--red); }
+.btn-primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--brand-deep);
+  border-color: var(--brand-deep);
+}
 
 .btn-ok {
-  background: var(--red);
-  border-color: var(--red);
-  color: var(--paper);
+  background: var(--brand-deep);
+  border-color: var(--brand-deep);
+  color: #fff;
 }
 
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -240,36 +274,45 @@ body {
 }
 
 .btn:focus-visible,
-.lang-switch button:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.lang-switch button:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
 
-/* ---- settings ---------------------------------------------------------- */
+/* ---- settings ----------------------------------------------------------
+   Tufte-style underline inputs: no boxes, a hairline baseline that
+   strengthens to the accent purple on focus. The slider thumb is
+   the section's purple focal point (purple = current value). */
 
 .field { margin-bottom: 1.7rem; }
 
 .field-head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   margin-bottom: 0.55rem;
 }
 
 .field-head label {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 input[type="number"] {
   width: 4.6rem;
   font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
   font-size: 1rem;
   text-align: center;
   color: var(--ink);
-  background: var(--paper);
-  border: 1px solid var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
   border-radius: 0;
-  padding: 0.45rem 0.25rem;
+  padding: 0.35rem 0.2rem calc(0.35rem - 1px);
   appearance: textfield;
   -moz-appearance: textfield;
+  transition: border-color 0.15s ease;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -278,25 +321,33 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"]:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+input[type="number"]:focus-visible {
+  outline: none;
+  border-bottom: 2px solid var(--brand);
+}
 
 .field-blacklist { margin-top: 1.6rem; }
 
 .text-input {
   width: 100%;
   min-height: 44px;
-  padding: 0.45rem 0.7rem;
+  padding: 0.35rem 0.1rem calc(0.35rem - 1px);
   font-family: var(--mono);
   font-size: 1rem;
   color: var(--ink);
-  background: var(--paper);
-  border: 1px solid var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
   border-radius: 0;
+  transition: border-color 0.15s ease;
 }
 
-.text-input::placeholder { color: #b5b5b5; }
+.text-input::placeholder { color: var(--ink-lo); }
 
-.text-input:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.text-input:focus-visible {
+  outline: none;
+  border-bottom: 2px solid var(--brand);
+}
 
 input[type="range"] {
   appearance: none;
@@ -310,7 +361,7 @@ input[type="range"] {
 
 input[type="range"]::-webkit-slider-runnable-track {
   height: 2px;
-  background: var(--ink);
+  background: var(--line);
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -319,27 +370,28 @@ input[type="range"]::-webkit-slider-thumb {
   width: 18px;
   height: 18px;
   margin-top: -8px;
-  background: var(--ink);
+  background: var(--brand);
   border: 0;
-  border-radius: 0;
+  border-radius: 2px;
 }
 
 input[type="range"]::-moz-range-track {
   height: 2px;
-  background: var(--ink);
+  background: var(--line);
 }
 
 input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
-  background: var(--ink);
+  background: var(--brand);
   border: 0;
-  border-radius: 0;
+  border-radius: 2px;
 }
 
-input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+input[type="range"]:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
 
-/* ---- checkboxes --------------------------------------------------------- */
+/* ---- checkboxes ---------------------------------------------------------
+   Checked = current = purple fill; the mark stays a plain white square. */
 
 .opts {
   margin: 0;
@@ -367,15 +419,19 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
   width: 20px;
   height: 20px;
   margin: 0;
-  border: 1px solid var(--ink);
-  border-radius: 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
   background: var(--paper);
   display: grid;
   place-content: center;
   cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-.opt input[type="checkbox"]:checked { background: var(--ink); }
+.opt input[type="checkbox"]:checked {
+  background: var(--brand);
+  border-color: var(--brand);
+}
 
 .opt input[type="checkbox"]:checked::before {
   content: "";
@@ -385,7 +441,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
 }
 
 .opt input[type="checkbox"]:focus-visible {
-  outline: 2px solid var(--red);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
@@ -393,7 +449,8 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
   grid-column: 1 / -1;
   margin: 0.6rem 0 0;
   font-size: 0.8rem;
-  color: var(--gray);
+  color: var(--ink-lo);
+  line-height: 1.6;
 }
 
 /* ---- advanced options ----------------------------------------------------- */
@@ -404,9 +461,9 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
   border: 0;
 }
 
-.adv-row { padding: 0.5rem 0; }
+.adv-row { padding: 0.55rem 0; }
 
-.adv-row + .adv-row { border-top: 1px solid var(--hairline); }
+.adv-row + .adv-row { border-top: 1px solid var(--line-lo); }
 
 .adv-row .hint { margin: 0.15rem 0 0.4rem; }
 
@@ -417,11 +474,13 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
   gap: 1rem;
 }
 
-/* Separator picker — segmented control, same school as the lang switch. */
+/* Separator picker — segmented control, same family as the lang switch. */
 
 .sep-switch {
   display: flex;
-  border: 1px solid var(--ink);
+  border: 1.5px solid var(--brand);
+  border-radius: 4px;
+  overflow: hidden;
   flex-shrink: 0;
 }
 
@@ -442,18 +501,18 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
   min-height: 44px;
   font-family: var(--mono);
   font-size: 1rem;
-  color: var(--ink);
+  color: var(--brand);
   background: var(--paper);
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.sep-switch .seg + .seg span { border-left: 1px solid var(--ink); }
+.sep-switch .seg + .seg span { border-left: 1px solid var(--line); }
 
-.sep-switch input:checked + span { background: var(--ink); color: var(--paper); }
+.sep-switch input:checked + span { background: var(--brand); color: #fff; }
 
 .sep-switch input:focus-visible + span {
-  outline: 2px solid var(--red);
+  outline: 2px solid var(--brand);
   outline-offset: -3px;
 }
 
@@ -461,18 +520,29 @@ input[type="range"]:focus-visible { outline: 2px solid var(--red); outline-offse
 
 .sep-switch.disabled span { cursor: not-allowed; }
 
-/* ---- footer --------------------------------------------------------------- */
+/* ---- footer ---------------------------------------------------------------
+   Methodology & notes: yellow-dot § head, short serif body, and a mono
+   disclaimer line — the research-page close. */
 
 footer {
-  margin-top: 1.5rem;
-  padding: 1.3rem 0 3rem;
-  border-top: 1px solid var(--hairline);
+  margin-top: 2.4rem;
+  padding: 2.4rem 0 3.2rem;
+  border-top: 1px solid var(--line);
 }
 
 footer p {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--gray);
+  margin: 0.15rem 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--ink-md);
+}
+
+footer .disc {
+  margin-top: 1.4rem;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-lo);
 }
 
 /* ---- responsive ------------------------------------------------------------ */

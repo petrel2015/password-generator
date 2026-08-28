@@ -1,0 +1,10 @@
+Spectral — Copyright (c) 2017 Production Type (www.productiontype.com),
+distributed under the SIL Open Font License 1.1
+(https://openfontlicense.org). Vendored from the research-report-style
+skill (assets/fonts/), which ships them for direct embedding.
+
+IBM Plex Mono — Copyright (c) 2017 IBM Corp., distributed under the
+SIL Open Font License 1.1. Same provenance.
+
+Both licenses permit free embedding, redistribution and subsetting,
+provided they travel with this notice.
